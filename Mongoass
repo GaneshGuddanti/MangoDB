@@ -16,3 +16,16 @@ db.E_review.find( { $or: [ { 'overall': 1 }, { 'overall': 3 }, { 'overall': 5 } 
 data, sorted by ascending order of the ‘total number’.
 
 db.E_review.aggregate( [ { $group: { _id: "$helpful", totalCount: { $sum: 1 } } }, { $sort: { totalCount: 1 } }]);
+
+•	Extract the 'reviewText' that contains the word 'awesome'.
+
+//to show the text
+
+db.E_review.find({'reviewText':{$regex:'awesome'}},{'reviewText':1,'_id':0})
+
+//to show the count 
+db.E_review.find( { 'reviewText': { $regex: 'awesome', $options: 'i' } }).count();
+•	Apply ‘AND’ operation to show the ‘reviewerName’ and ‘overall’ columns only with
+overall rating less than 5 and greater than 2 and sort the result in the descending order by
+‘reviewerName’.
+db.E_review.find( { $and: [ { 'overall': { $gt: 2 } }, { 'overall': { $lt: 5 } } ] }, { 'reviewerName': 1, 'overall': 1, '_id': 0 }).sort({ 'reviewerName': -1 })
