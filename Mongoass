@@ -20,8 +20,9 @@ db.E_review.aggregate( [ { $group: { _id: "$helpful", totalCount: { $sum: 1 } } 
 •	Extract the 'reviewText' that contains the word 'awesome'.
 
 //to show the text
+db.E_review.find({'reviewText': {$regex: 'awesome'}}, {'reviewText': 1, '_id': 0}).forEach(printjson)
 
-db.E_review.find({'reviewText':{$regex:'awesome'}},{'reviewText':1,'_id':0})
+//db.E_review.find({'reviewText':{$regex:'awesome'}},{'reviewText':1,'_id':0})
 
 //to show the count 
 db.E_review.find( { 'reviewText': { $regex: 'awesome', $options: 'i' } }).count();
