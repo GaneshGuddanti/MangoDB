@@ -21,12 +21,17 @@ db.E_review.aggregate( [ { $group: { _id: "$helpful", totalCount: { $sum: 1 } } 
 
 //to show the text
 db.E_review.find({'reviewText': {$regex: 'awesome'}}, {'reviewText': 1, '_id': 0}).forEach(printjson)
+db.E_review.find({'reviewText': {$regex: 'awesome', $options: 'i'}}, {'reviewText': 1, '_id': 0}).forEach(printjson)
 //to export 
 mongoexport --db mydb --collection E_review --query '{"reviewText": {"$regex": "awesome"}}' --fields reviewText --type=csv --out output.txt
+mongoexport --db mydb --collection E_review --query '{"reviewText": {"$regex": "awesome", "$options": "i"}}' --fields reviewText --type=csv --out output.txt
 //db.E_review.find({'reviewText':{$regex:'awesome'}},{'reviewText':1,'_id':0})
-
 //to show the count 
+db.E_review.find({'reviewText': {$regex: 'awesome'}}).count()
 db.E_review.find( { 'reviewText': { $regex: 'awesome', $options: 'i' } }).count();
+
+
+
 •	Apply ‘AND’ operation to show the ‘reviewerName’ and ‘overall’ columns only with
 overall rating less than 5 and greater than 2 and sort the result in the descending order by
 ‘reviewerName’.
